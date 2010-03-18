@@ -115,7 +115,7 @@ module BERT
       value = read_4
       negative = (value >> 31)[0] == 1
       value = (value - (1 << 32)) if negative
-      value = Fixnum.induced_from(value)
+      attempt_cast(Fixnum, value)
     end
 
     def read_small_bignum
@@ -128,7 +128,7 @@ module BERT
         value = (byte * (256 ** index))
         sign != 0 ? (result - value) : (result + value)
       end
-      Bignum.induced_from(added)
+      attempt_cast(Bignum, added)
     end
 
     def read_large_bignum
@@ -141,7 +141,7 @@ module BERT
         value = (byte * (256 ** index))
         sign != 0 ? (result - value) : (result + value)
       end
-      Bignum.induced_from(added)
+      attempt_cast(Bignum, added)
     end
 
     def read_float
@@ -254,6 +254,16 @@ module BERT
 
     def fail(str)
       raise str
+    end
+
+    private
+
+    def attempt_cast(klass, value)
+      if klass.respond_to?(:induced_from)
+        klass.induced_from(value)
+      else
+        value
+      end
     end
   end
 end
