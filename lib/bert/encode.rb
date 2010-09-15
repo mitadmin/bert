@@ -34,20 +34,44 @@ module BERT
       end
     end
 
+    def self.write_byte(byte)
+      [byte].pack("C")
+    end
+
     def write_1(byte)
-      out.write([byte].pack("C"))
+      out.write(
+        self.class.write_byte(byte)
+      )
+    end
+
+    def self.write_short(short)
+      [short].pack("n")
     end
 
     def write_2(short)
-      out.write([short].pack("n"))
+      out.write(
+        self.class.write_short(short)
+      )
+    end
+
+    def self.write_long(long)
+      [long].pack("N")
     end
 
     def write_4(long)
-      out.write([long].pack("N"))
+      out.write(
+        self.class.write_long(long)
+      )
+    end
+
+    def self.write_string(string)
+      string
     end
 
     def write_string(string)
-      out.write(string)
+      out.write(
+        self.class.write_string(string)
+      )
     end
 
     def write_boolean(bool)
