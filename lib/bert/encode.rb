@@ -1,6 +1,7 @@
 module BERT
   class Encode
     include Types
+    include Terms
 
     attr_accessor :out
 
@@ -27,6 +28,7 @@ module BERT
         when Tuple then write_tuple(obj)
         when Array then write_list(obj)
         when String then write_binary(obj)
+        when Pid then write_pid(obj)
         else
           fail(obj)
       end
@@ -50,6 +52,14 @@ module BERT
 
     def write_boolean(bool)
       write_symbol(bool.to_s.to_sym)
+    end
+
+    def write_pid(pid)
+      write_1(PID)
+      write_symbol(pid.node)
+      write_4((pid.node_id & 0x7fff))
+      write_4((pid.serial & 0x1fff))
+      write_1((pid.creation & 0x3))
     end
 
     def write_symbol(sym)

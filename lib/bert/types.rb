@@ -6,6 +6,7 @@ module BERT
     LARGE_BIGNUM = 111
     FLOAT = 99
     ATOM = 100
+    PID = 103
     SMALL_TUPLE = 104
     LARGE_TUPLE = 105
     NIL = 106

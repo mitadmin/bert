@@ -5,6 +5,7 @@ $:.unshift File.join(File.dirname(__FILE__), *%w[.. ext])
 
 require 'bert/bert'
 require 'bert/types'
+require 'bert/terms'
 
 begin
   # try to load the C extension
