@@ -2,6 +2,7 @@ module BERT
   class Decode
     attr_accessor :in
     include Types
+    include Terms
 
     def self.impl
       'Ruby'
@@ -35,6 +36,7 @@ module BERT
         when STRING then read_erl_string
         when LIST then read_list
         when BIN then read_bin
+        when PID then read_pid
         else
           fail("Unknown term tag: #{peek_1}")
       end
@@ -239,6 +241,15 @@ module BERT
       fail("Invalid Type, not an erlang binary") unless read_1 == BIN
       length = read_4
       read_string(length)
+    end
+
+    def read_pid
+      fail("Invalid Type, not a pid") unless read_1 == PID
+      node = read_atom
+      id = read_4
+      serial = read_4
+      creation = read_1
+      Pid.new(node, id, serial, creation)
     end
 
     def fail(str)
