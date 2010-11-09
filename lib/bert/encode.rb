@@ -165,7 +165,7 @@ module BERT
 
     def write_binary(data)
       write_1 BIN
-      write_4 data.bytes.to_a.size
+      write_4 data.bytes.count
       write_string data
     end
 
