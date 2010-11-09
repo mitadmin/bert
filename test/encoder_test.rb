@@ -1,9 +1,24 @@
+#encoding: utf-8
 require 'test_helper'
 
 class EncoderTest < Test::Unit::TestCase
   context "BERT Encoder complex type converter" do
     should "convert nil" do
       assert_equal [:bert, :nil], BERT::Encoder.convert(nil)
+    end
+
+    should 'preserve original encoding type' do
+      string = "fred"
+      before = string.encoding 
+      BERT::Encode.encode(string)
+      after = string.encoding 
+      assert_equal before, after
+    end
+
+    should 'convert deal with a pound' do
+      before = '£'
+      after = "<<131,109,0,0,0,2,194,163>>"
+      assert_equal after, BERT.ebin(BERT::Encode.encode(before))
     end
 
     should "convert nested nil" do

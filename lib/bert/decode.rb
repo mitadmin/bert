@@ -56,7 +56,7 @@ module BERT
       if length > 0
         result << @in.read(length)
       end
-      result
+      result.force_encoding('UTF-8')
     end
 
     def peek(length)
