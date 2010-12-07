@@ -7,13 +7,7 @@ require 'bert/bert'
 require 'bert/types'
 require 'bert/terms'
 
-begin
-  # try to load the C extension
-  require 'bert/c/decode'
-rescue LoadError
-  # fall back on the pure ruby version
-  require 'bert/decode'
-end
+require 'bert/decode'
 
 require 'bert/encode'
 
